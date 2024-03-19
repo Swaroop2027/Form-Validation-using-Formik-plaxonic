@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import Popup from "../Popup/Popup";
-// import Popup from "reactjs-popup";
 
 const Form = () => {
   const [action, setAction] = useState("Sign Up");
-  const [buttonPopup, setButtonPopup] = useState(false);
 
   let navigate = useNavigate();
 
   const routeChange = () => {
+    console.log("in route");
     navigate("/home");
   };
 
@@ -27,7 +25,6 @@ const Form = () => {
   };
 
   const validate = (values) => {
-    setButtonPopup((prev) => !prev);
     let errors = {};
 
     if (!values.name) {
@@ -62,17 +59,9 @@ const Form = () => {
     onSubmit,
     validate,
   });
-  //   console.log(formik.values);
+  // console.log(formik.values);
   // console.log(formik.errors);
-  //   console.log("Touched", formik.touched);
-
-  const loginFun = () => {
-    if (formik.errors.email || formik.errors.password) {
-      setButtonPopup(true);
-    } else {
-      setButtonPopup(false);
-    }
-  };
+  // console.log("Touched", formik.touched);
 
   return (
     <div className="flex flex-col m-auto mt-[80px] mb-[80px] w-[600px] bg-[#ffffff] pb-[30px] rounded-[10px]">
@@ -98,21 +87,13 @@ const Form = () => {
                 id="name"
                 name="name"
                 placeholder="Enter your name"
+                autoComplete="off"
                 onChange={formik.handleChange}
                 value={formik.values.name}
                 onBlur={formik.handleBlur}
               />
               {formik.touched.name && formik.errors.name ? (
-                // <div>
-                //   {formik.errors.name}
-                // </div>
-                <Popup
-                  trigger={buttonPopup}
-                  setTrigger={setButtonPopup}
-                  error={formik.errors.name}
-                >
-                  {/* <h3>{formik.errors.name}</h3> */}
-                </Popup>
+                <div>{formik.errors.name}</div>
               ) : null}
             </div>
           )}
@@ -127,19 +108,13 @@ const Form = () => {
               id="email"
               name="email"
               placeholder="Enter your email"
+              autoComplete="off"
               onChange={formik.handleChange}
               value={formik.values.email}
               onBlur={formik.handleBlur}
             />
             {formik.touched.email && formik.errors.email ? (
-              // <div>{formik.errors.email}</div>
-              <Popup
-                trigger={buttonPopup}
-                setTrigger={setButtonPopup}
-                error={formik.errors.email}
-              >
-                {/* <h3>{formik.errors.email}</h3> */}
-              </Popup>
+              <div>{formik.errors.email}</div>
             ) : null}
           </div>
 
@@ -153,19 +128,13 @@ const Form = () => {
               id="password"
               name="password"
               placeholder="Enter your password"
+              autoComplete="off"
               onChange={formik.handleChange}
               value={formik.values.password}
               onBlur={formik.handleBlur}
             />
             {formik.touched.password && formik.errors.password ? (
-              // <div>{formik.errors.password}</div>
-              <Popup
-                trigger={buttonPopup}
-                setTrigger={setButtonPopup}
-                error={formik.errors.password}
-              >
-                {/* <h3>{formik.errors.password}</h3> */}
-              </Popup>
+              <div>{formik.errors.password}</div>
             ) : null}
           </div>
 
@@ -184,19 +153,13 @@ const Form = () => {
                 pattern="[1-9]{1}[0-9]{9}"
                 maxLength="10"
                 placeholder="Enter your phone no."
+                autoComplete="off"
                 onChange={formik.handleChange}
                 value={formik.values.phone}
                 onBlur={formik.handleBlur}
               />
               {formik.touched.phone && formik.errors.phone ? (
-                // <div>{formik.errors.phone}</div>
-                <Popup
-                  trigger={buttonPopup}
-                  setTrigger={setButtonPopup}
-                  error={formik.errors.phone}
-                >
-                  {/* <h3>{formik.errors.phone}</h3> */}
-                </Popup>
+                <div>{formik.errors.phone}</div>
               ) : null}
             </div>
           )}
@@ -214,60 +177,71 @@ const Form = () => {
                 id="address"
                 name="address"
                 placeholder="Enter your address"
+                autoComplete="off"
                 onChange={formik.handleChange}
                 value={formik.values.address}
                 onBlur={formik.handleBlur}
               />
               {formik.touched.address && formik.errors.address ? (
-                // <div>{formik.errors.address}</div>
-                <Popup
-                  trigger={buttonPopup}
-                  setTrigger={setButtonPopup}
-                  error={formik.errors.address}
-                >
-                  {/* <h3>{formik.errors.address}</h3> */}
-                </Popup>
+                <div>{formik.errors.address}</div>
               ) : null}
             </div>
           )}
 
-          {action === "Login" &&
-          formik.values.email &&
-          formik.values.password ? (
-            <div className="text-center">
+          <div className="flex mx-[auto] my-[30px] justify-center gap-4">
+            {formik.values.name &&
+            formik.values.email &&
+            formik.values.password &&
+            formik.values.phone &&
+            formik.values.address ? (
               <button
-                className="bg-blue-400 p-2 rounded-sm"
-                onClick={routeChange}
+                type="submit"
+                className="flex justify-center items-center w-[220px] h-[59px] text-[#ffffff] bg-[#4c00b4] rounded-[50px] text-[19px] font-bold cursor-pointer hover:bg-[linear-gradient(#2a00b7,_#42006c)]"
+                onClick={() => {
+                  setAction("Sign Up");
+                  routeChange();
+                }}
+              >
+                Sign Up
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="flex justify-center items-center w-[220px] h-[59px] text-[#ffffff] bg-[#4c00b4] rounded-[50px] text-[19px] font-bold cursor-pointer hover:bg-[linear-gradient(#2a00b7,_#42006c)]"
+                onClick={() => {
+                  setAction("Sign Up");
+                }}
+              >
+                Sign Up
+              </button>
+            )}
+
+            {formik.values.email &&
+            formik.values.password &&
+            !formik.errors.email ? (
+              <button
+                type="submit"
+                className="flex justify-center items-center w-[220px] h-[59px] text-[#ffffff] bg-[#4c00b4] rounded-[50px] text-[19px] font-bold cursor-pointer hover:bg-[linear-gradient(#2a00b7,_#42006c)]"
+                onClick={() => {
+                  setAction("Login");
+                  routeChange();
+                }}
               >
                 Login
               </button>
-            </div>
-          ) : (
-            <div></div>
-          )}
-
-          <div className="flex mx-[auto] my-[30px] justify-center gap-4">
-            <button
-              type="submit"
-              className="flex justify-center items-center w-[220px] h-[59px] text-[#ffffff] bg-[#4c00b4] rounded-[50px] text-[19px] font-bold cursor-pointer hover:bg-[linear-gradient(#2a00b7,_#42006c)]"
-              onClick={() => {setAction("Sign Up"); loginFun();}}
-            >
-              Sign Up
-            </button>
-
-            <button
-              type="submit"
-              className="flex justify-center items-center w-[220px] h-[59px] text-[#ffffff] bg-[#4c00b4] rounded-[50px] text-[19px] font-bold cursor-pointer hover:bg-[linear-gradient(#2a00b7,_#42006c)]"
-              onClick={() => {setAction("Login"); loginFun();}}
-            >
-              Login
-            </button>
+            ) : (
+              <button
+                type="submit"
+                className="flex justify-center items-center w-[220px] h-[59px] text-[#ffffff] bg-[#4c00b4] rounded-[50px] text-[19px] font-bold cursor-pointer hover:bg-[linear-gradient(#2a00b7,_#42006c)]"
+                onClick={() => {
+                  setAction("Login");
+                }}
+              >
+                Login
+              </button>
+            )}
           </div>
         </form>
-        {/* <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-          <h3>my popup</h3>
-        </Popup>
-        <button onClick={() => setButtonPopup(true)}>Open</button> */}
       </div>
     </div>
   );
